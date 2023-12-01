@@ -6,6 +6,6 @@ import userController from "../../user/user.controller";
 
 const router =Router()
     .use('/auth', auth)
-    .use('/user', userController.createUser)
-
+    .use('/user', user)
+    
 export default router
