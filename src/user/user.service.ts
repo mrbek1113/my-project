@@ -3,14 +3,6 @@ import prisma from "../prisma/prisma.servise"
 import createHttpError from "http-errors"
 import { Role, User } from "@prisma/client"
 
-export type UserServiceType = {
-   first_name: string
-   last_name: string
-   phone: string
-   user_name: string
-   password: string
-}
-
 const createUser = async (first_name: string, last_name: string, phone: string, user_name: string, password: string) => {
    const findedUser = await prisma.user.findUnique({
       where: {
@@ -20,8 +12,8 @@ const createUser = async (first_name: string, last_name: string, phone: string, 
    if (findedUser) {
       throw createHttpError(403, "User already exist")
    }
-
-   const hashPassword = (await bcrypt.hash(password, 10)).toString()
+   const hashPassword =await  bcrypt.hash(password, 10)
+   
    const user = await prisma.user.create({
       data: {
          first_name,
@@ -29,13 +21,13 @@ const createUser = async (first_name: string, last_name: string, phone: string, 
          user_name,
          password: hashPassword,
          phone,
-         role: "student"
+
       }
    })
    return user
 }
 
-const updateUser = async (id: number, first_name: string, last_name: string, phone: string,) => {
+const updateUser = async (id: number, first_name: string, last_name: string, phone: string) => {
    const findedUser = await prisma.user.findUnique({
       where: {
          id
@@ -49,7 +41,9 @@ const updateUser = async (id: number, first_name: string, last_name: string, pho
          id
       },
       data: {
-         first_name, last_name, phone,
+         first_name,
+          last_name,
+           phone,
       },
    })
 
@@ -86,7 +80,6 @@ const deleteUser=async(id:number)=>{
       where:{
          id
       },
-
    })
    return removeUser 
 }

@@ -10,7 +10,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
         const user = await userService.createUser(first_name, last_name, phone, user_name, password)
         res.send({
             message: "User created",
-            user
+           user
         })
     } catch (e) {
         next(e)
