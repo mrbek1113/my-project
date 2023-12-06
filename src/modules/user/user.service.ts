@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt"
-import prisma from "../prisma/prisma.servise"
+import prisma from "../../prisma/prisma.servise"
 import createHttpError from "http-errors"
-import { Role, User } from "@prisma/client"
+
 
 const createUser = async (first_name: string, last_name: string, phone: string, user_name: string, password: string) => {
    const findedUser = await prisma.user.findUnique({

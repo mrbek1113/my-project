@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import prisma from "../prisma/prisma.servise";
+import prisma from '../../prisma/prisma.servise'
 import userService from "./user.service";
 import data from "./user.service"
 

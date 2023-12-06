@@ -1,5 +1,5 @@
 import createHttpError from "http-errors"
-import prisma from "../prisma/prisma.servise"
+import prisma from "../../prisma/prisma.servise"
 import bcrypt from "bcrypt"
 
 // const register = async (user_name: string, password: string) => {

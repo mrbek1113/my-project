@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router()
-import v1 from './v1'
+import v1 from './v1/v1'
 
 //versions
 
