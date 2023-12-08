@@ -9,22 +9,19 @@ datasource db {
 
 model User {
   id         Int      @id @default(autoincrement())
-  first_name String?
-  last_name  String?
+  password   String
   phone      String?
   user_name  String   @unique
-  password   String
   created_at DateTime @default(now())
+  first_name String?
+  last_name  String?
+  role       Role     @default(student)
   updated_at DateTime @updatedAt
-  role       Role @default(student)
-  
 }
 
-model Educations{
-  id Int @id @default(autoincrement())
+model Educations {
+  id             Int    @id @default(autoincrement())
   education_name String @unique
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
 }
 
 enum Role {
