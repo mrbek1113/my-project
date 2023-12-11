@@ -1,37 +1,40 @@
 import bcrypt from "bcrypt"
 import prisma from "../../prisma/prisma.servise"
 import createHttpError from "http-errors"
-import { Userbody } from "../../model/user.dto"
 
 
- const createUser = async (detail:Userbody) => {
+
+
+
+const createUser = async (first_name:string,last_name:string,user_name:string,password:string,phone:string) => {
    const findedUser = await prisma.user.findUnique({
       where: {
-         user_name:detail.user_name
+   user_name
       }
    })
    if (findedUser) {
       throw createHttpError(403, "User already exist")
    }
-   const hashPassword =await  bcrypt.hash(detail.password, 10)
-   
+   const hashPassword = await bcrypt.hash(password, 10)
+
    const user = await prisma.user.create({
       data: {
-         first_name:detail.first_name,
-         last_name:detail.last_name,
-         user_name:detail.user_name,
+         
+         first_name,
+         last_name,
+         user_name,
          password: hashPassword,
-         phone:detail.phone,
+         phone,
 
       }
    })
    return user
 }
 
- const updateUser = async (detail:Userbody) => {
+const updateUser = async (id:number,first_name:string,last_name:string,user_name:string,password:string,phone:string) => {
    const findedUser = await prisma.user.findUnique({
       where: {
-         id:detail.id
+         id
       }
    })
    if (!findedUser) {
@@ -39,52 +42,54 @@ import { Userbody } from "../../model/user.dto"
    }
    const user = await prisma.user.update({
       where: {
-         id:detail.id
+         id
       },
       data: {
-         first_name:detail.first_name,
-          last_name:detail.last_name,
-           phone:detail.phone,
+         id,
+         user_name,
+         first_name,
+         last_name,
+         phone,
       },
    })
 
    return user
 }
- const getAllUser = async (detail:Userbody) => {
+const getAllUser = async (role:string) => {
    const allUser = await prisma.user.findMany({
       where: {
-         first_name:detail.first_name
+         role:"user"
       },
       select: {
-         id:true,
+         id: true,
          first_name: true,
          last_name: true,
          user_name: true,
-         phone:true,
-         role:true
+         phone: true,
+         role: true
       }
    })
    return allUser
-   
+
 }
 
- const deleteUser=async(detail:Userbody)=>{
-   const deleteduser=await prisma.user.findUnique({
-      where:{
-         id:detail.id
+const deleteUser = async (id:number) => {
+   const deleteduser = await prisma.user.findUnique({
+      where: {
+         id
       }
    })
-   if(!deleteduser){
-      throw createHttpError(404,"user not found")
+   if (!deleteduser) {
+      throw createHttpError(404, "user not found")
    }
-   const removeUser=await prisma.user.delete({
-      where:{
-         id:detail.id
+   const removeUser = await prisma.user.delete({
+      where: {
+         id
       },
    })
-   return removeUser 
+   return removeUser
 }
-export default{
+export default {
    createUser,
    getAllUser,
    updateUser,
