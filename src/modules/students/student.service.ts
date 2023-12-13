@@ -1,7 +1,7 @@
 import createHttpError from "http-errors"
 import prisma from "../../prisma/prisma.servise"
 import bcrypt from 'bcrypt'
-import { idText } from "typescript"
+import { createAbstractBuilder, idText } from "typescript"
 
 const createStudent=async(first_name:string,last_name:string,user_name:string,password:string,phone:string)=>{
 const findStudent=await prisma.student.findUnique({
@@ -60,10 +60,27 @@ const getAllStudent=async (user_name:string)=>{
     })
     return findStudent
 }
+const deleteStudent=async(id:number)=>{
+    const findStudent=await prisma.student.findUnique({
+        where:{
+            id
+        }
+    })
+    if(!findStudent){
+        createHttpError(404,"Student not found")
+    }
+    const student=await prisma.student.delete({
+        where:{
+            id
+        }
+    })
+    return student
+}
 
 
 export default {
     createStudent,
     updeteStudent,
-    getAllStudent
+    getAllStudent,
+    deleteStudent
 }

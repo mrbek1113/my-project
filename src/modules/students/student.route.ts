@@ -1,8 +1,12 @@
 import { Router } from "express";
-import userController from "../user/user.controller";
+import bodyValidate from "../../core/body-validate.middleware";
 import studentController from "./student.controller";
+import studentModel from "./student.model";
 
 const router=Router()
-router.post('/',studentController.createStudent)
+router.post('/',bodyValidate(studentModel.createStudentScheme),studentController.createStudent)
+router.get('/',studentController.getAllStudent)
+router.put('/:id',studentController.updateUser)
+router.delete('/:id',bodyValidate(studentModel.deleteStudentSchema),studentController.deleteStudent)
 
 export default router

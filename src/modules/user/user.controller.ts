@@ -24,7 +24,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     const { first_name,last_name,user_name,password,phone } = req.body
     const user = await userService.updateUser(+id,first_name,last_name,user_name,password,phone)
 
-    res.send({
+    res.status(200).send({
       message: "User updated",
       user
     })
