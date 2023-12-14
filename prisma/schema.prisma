@@ -19,52 +19,6 @@ model User {
   updated_at DateTime @updatedAt
 }
 
-model Student {
-  id         Int      @id @default(autoincrement())
-  password   String
-  phone      String?
-  user_name  String   @unique
-  first_name String?
-  last_name  String?
-  role       Role     @default(student)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-}
-
-model Mentor {
-  id         Int      @id @default(autoincrement())
-  password   String
-  phone      String?
-  user_name  String   @unique
-  created_at DateTime @default(now())
-  first_name String?
-  last_name  String?
-  role       Role     @default(mentor)
-  updated_at DateTime @updatedAt
-}
-model Admin{
-      id         Int      @id @default(autoincrement())
-  password   String
-  phone      String?
-  user_name  String   @unique
-  created_at DateTime @default(now())
-  first_name String?
-  last_name  String?
-  role       Role     @default(admin)
-  updated_at DateTime @updatedAt
-}
-model BigAdmin{
-      id         Int      @id @default(autoincrement())
-  password   String
-  phone      String?
-  user_name  String   @unique
-  created_at DateTime @default(now())
-  first_name String?
-  last_name  String?
-  role       Role     @default(big_admin)
-  updated_at DateTime @updatedAt
-}
-
 model Educations {
   id             Int      @id @default(autoincrement())
   education_name String   @unique
@@ -79,4 +33,6 @@ enum Role {
   big_admin
   supervisor
   user
+  callcenter
+  manager
 }

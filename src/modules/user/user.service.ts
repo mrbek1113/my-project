@@ -2,99 +2,70 @@ import bcrypt from "bcrypt"
 import prisma from "../../prisma/prisma.servise"
 import createHttpError from "http-errors"
 
+export default class userService {
+   static async createUser(first_name: string, last_name: string, user_name: string, password: string, phone: string) {
 
+      const hashPassword = await bcrypt.hash(password, 10)
 
+      const user = await prisma.user.create({
+         data: {
 
+            first_name,
+            last_name,
+            user_name,
+            password: hashPassword,
+            phone,
 
-const createUser = async (first_name:string,last_name:string,user_name:string,password:string,phone:string) => {
-   const findedUser = await prisma.user.findUnique({
-      where: {
-   user_name
-      }
-   })
-   if (findedUser) {
-      throw createHttpError(403, "User already exist")
+         }
+      })
+      return user
    }
-   const hashPassword = await bcrypt.hash(password, 10)
+   static async updateUser(id: number, first_name: string, last_name: string, user_name: string, password: string, phone: string) {
+      const user = await prisma.user.update({
+         where: {
+            id
+         },
+         data: {
+            id,
+            user_name,
+            first_name,
+            last_name,
+            phone,
+         },
+      })
 
-   const user = await prisma.user.create({
-      data: {
-         
-         first_name,
-         last_name,
-         user_name,
-         password: hashPassword,
-         phone,
-
-      }
-   })
-   return user
-}
-
-const updateUser = async (id:number,first_name:string,last_name:string,user_name:string,password:string,phone:string) => {
-   const findedUser = await prisma.user.findUnique({
-      where: {
-         id
-      }
-   })
-   if (!findedUser) {
-      throw createHttpError(404, "User not found")
+      return user
    }
-   const user = await prisma.user.update({
-      where: {
-         id
-      },
-      data: {
-         id,
-         user_name,
-         first_name,
-         last_name,
-         phone,
-      },
-   })
+   static async getAllUser(role: string) {
+      const allUser = await prisma.user.findMany({
+         where: {
+            role: "user"
+         },
+         select: {
+            id: true,
+            first_name: true,
+            last_name: true,
+            user_name: true,
+            phone: true,
+            role: true
+         }
+      })
+      return allUser
 
-   return user
-}
-const getAllUser = async (role:string) => {
-   const allUser = await prisma.user.findMany({
-      where: {
-         role:"user"
-      },
-      select: {
-         id: true,
-         first_name: true,
-         last_name: true,
-         user_name: true,
-         phone: true,
-         role: true
-      }
-   })
-   return allUser
-
-}
-
-const deleteUser = async (id:number) => {
-   const deleteduser = await prisma.user.findUnique({
-      where: {
-         id
-      }
-   })
-   if (!deleteduser) {
-      throw createHttpError(404, "user not found")
    }
-   const removeUser = await prisma.user.delete({
-      where: {
-         id
-      },
-   })
-   return removeUser
+   static async deleteUser(id: number) {
+      const removeUser = await prisma.user.delete({
+         where: {
+            id
+         },
+      })
+      return removeUser
+   }
 }
-export default {
-   createUser,
-   getAllUser,
-   updateUser,
-   deleteUser
-}
+
+
+
+
 
 
 

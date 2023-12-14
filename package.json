@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon ./src/server.ts",
+    "build": "yarn tsc",
+    "start": "node ./build/server.js"
   },
   "author": "bek",
   "license": "MIT",
@@ -18,7 +20,7 @@
     "joi": "^17.11.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.7",
-    "nodemon": "^3.0.1",
+    "nodemon": "^3.0.2",
     "path": "^0.12.7",
     "prisma": "^5.7.0",
     "ts-node": "^10.9.1",

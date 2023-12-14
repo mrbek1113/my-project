@@ -7,14 +7,8 @@ const createStudentScheme=Joi.object({
     password:Joi.string().required(),
     phone:Joi.string(),
 })
-const deleteStudentSchema=Joi.object({
-    first_name:Joi.string(),
-    last_name:Joi.string(),
-    user_name:Joi.string().min(4).max(16),
-    password:Joi.string()
-})
+
 
 export default {
     createStudentScheme,
-    deleteStudentSchema
 }

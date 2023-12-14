@@ -7,14 +7,7 @@ const createBigAdminScheme=Joi.object({
     password:Joi.string().required(),
     phone:Joi.string(),
 })
-const deleteBigAdminSchema=Joi.object({
-    first_name:Joi.string(),
-    last_name:Joi.string(),
-    user_name:Joi.string().min(4).max(16),
-    password:Joi.string()
-})
 
 export default {
 createBigAdminScheme,
-deleteBigAdminSchema
 }

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import userController from "../../modules/user/user.controller";
+import userController from "./user.controller";
 import bodyValidate from "../../core/body-validate.middleware";
-import userModel from "../../modules/user/user.model";
+import userModel from "./user.model";
 
 const router = Router()
 

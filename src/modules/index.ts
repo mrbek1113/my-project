@@ -1,20 +1,9 @@
-import { Router } from "express";
-import auth from './auth/auth.route'
-import user from './user/user.route'
-import student from './students/student.route'
-import education from './education/education.route'
-import mentor from './mentor/mentor.route'
-import admin from './admins/admin.rute'
-import bigAdmin from './big_admin/bigAdmin.route'
-const router =Router()
-
-
-    .use('/auth', auth)
-    .use('/user', user)
-    .use('/student',student)
-    .use('/education',education)
-    .use('/mentor',mentor)
-    .use('/admin',admin)
-    .use('/big_admin',bigAdmin)
-    
-export default router
+export { default as userRouter } from './user/user.router'
+export { default as authRouter } from './auth/auth.router'
+export {default as bigAdminRouter} from '../modules/role-menegment/big_admin/bigAdmin.router'
+export { default as studentRouter } from '../modules/role-menegment/students/student.router'
+export { default as mentorRouter } from '../modules/role-menegment/mentor/mentor.router'
+export { default as educationRouter } from './education/education.router'
+export { default as adminRouter } from '../modules/role-menegment/admin/admin.router'
+export {default as callCenterRouter} from './role-menegment/callcenter/callcenter.router'
+export {default as managerRouter} from './role-menegment/manager/manager.router'
