@@ -17,6 +17,8 @@ model User {
   last_name  String?
   role       Role     @default(user)
   updated_at DateTime @updatedAt
+  Student    Student?
+  Teacher    Teacher?
 }
 
 model Educations {
@@ -24,6 +26,131 @@ model Educations {
   education_name String   @unique
   created_at     DateTime @default(now())
   updated_at     DateTime @default(now())
+}
+
+model Group {
+  id           Int       @id @default(autoincrement())
+  name         String
+  direction_id Int
+  start_date   DateTime
+  type         GroupType
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  lesson_count Int
+  Lessons      Lesson[]
+  Students     Student[]
+  Direction    Direction @relation(fields: [direction_id], references: [id])
+
+  Teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  teacherId Int?
+}
+
+model Lesson {
+  id         Int          @id @default(autoincrement())
+  Group      Group?       @relation(fields: [groupId], references: [id])
+  groupId    Int?
+  Attendance Attendance[]
+  Teacher    Teacher?     @relation(fields: [teacherId], references: [id])
+  teacherId  Int?
+}
+
+model Student {
+  id         Int          @id @default(autoincrement())
+  user_id    Int          @unique
+  birthday   DateTime
+  discount   Float
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  User       User         @relation(fields: [user_id], references: [id])
+  Group      Group[]
+  Attendance Attendance[]
+}
+
+model Attendance {
+  id         Int            @id @default(autoincrement())
+  lesson_id  Int
+  student_id Int
+  type       AttendanceType
+  comment    String?
+  created_at DateTime       @default(now())
+  updated_at DateTime       @updatedAt
+  Lesson     Lesson         @relation(fields: [lesson_id], references: [id])
+  Student    Student        @relation(fields: [student_id], references: [id])
+}
+
+enum AttendanceType {
+  missed
+  attended
+}
+
+model Teacher {
+  id              Int           @id @default(autoincrement())
+  user_id         Int           @unique
+  teacher_type_id Int
+  status          TeacherStatus @default(active)
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt
+  Direction       Direction[]
+  User            User          @relation(fields: [user_id], references: [id])
+  TeacherType     TeacherType   @relation(fields: [teacher_type_id], references: [id])
+  Group           Group[]
+  Lesson          Lesson[]
+}
+
+enum TeacherStatus {
+  active
+  inactive
+  deleted
+  archived
+}
+
+model Direction {
+  id                Int             @id @default(autoincrement())
+  name              String          @unique
+  prefix            String          @unique
+  price             Float
+  month             Int
+  lesson_duration   Int
+  direction_type_id Int
+  DirectionType     DirectionType   @relation(fields: [direction_type_id], references: [id])
+  status            DirectionStatus @default(active)
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @updatedAt
+  Group             Group[]
+  Teacher           Teacher[]
+}
+
+model DirectionType {
+  id          Int             @id @default(autoincrement())
+  name        String          @unique
+  status      DirectionStatus @default(active)
+  TeacherType TeacherType[]
+  Direction   Direction[]
+}
+
+model TeacherType {
+  id                Int           @id @default(autoincrement())
+  name              String
+  direction_type_id Int
+  status            TeacherStatus
+  DirectionType     DirectionType @relation(fields: [direction_type_id], references: [id])
+  Teacher           Teacher[]
+
+  @@unique([name, direction_type_id])
+}
+
+enum DirectionStatus {
+  active
+  inactive
+  deleted
+  archived
+}
+
+enum GroupType {
+  starting
+  started
+  finished
+  archived
 }
 
 enum Role {
