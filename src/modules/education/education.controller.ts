@@ -29,22 +29,30 @@ export default class educationController {
             next(e)
         }
     }
-    static async updateEducation(req:Request,res:Response,next:NextFunction){
-        const{id}=req.params
-        const {education_name}=req.body
-        const education= educationsService.updateEducation(+id,education_name)
-        res.status(200).send({
-            message:"Education Updated",
-            "Education":education
-        })
+    static async updateEducation(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params
+            const { education_name } = req.body
+            const education = educationsService.updateEducation(+id, education_name)
+            res.status(200).send({
+                message: "Education Updated",
+                "Education": education
+            })
+        } catch (e) {
+            next(e)
+        }
     }
 
-    static async deleteEducation(req:Request,res:Response,next:NextFunction){
-        const{id}=req.params
-        const education=educationsService.deleteEducation(+id)
-        res.status(200).send({
-            message:"Education deleted",
-            "Education":education
-        })
+    static async deleteEducation(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params
+            const education = educationsService.deleteEducation(+id)
+            res.status(200).send({
+                message: "Education deleted",
+                "Education": education
+            })
+        } catch (e) {
+            next(e)
+        }
     }
 }
