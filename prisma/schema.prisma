@@ -40,9 +40,8 @@ model Group {
   Lessons      Lesson[]
   Students     Student[]
   Direction    Direction @relation(fields: [direction_id], references: [id])
-
-  Teacher   Teacher? @relation(fields: [teacherId], references: [id])
-  teacherId Int?
+  Teacher      Teacher?  @relation(fields: [teacherId], references: [id])
+  teacherId    Int?
 }
 
 model Lesson {
